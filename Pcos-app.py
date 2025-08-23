@@ -12,17 +12,6 @@ features = [
     'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
 ]
 
-# โหลดรูปภาพแบบปลอดภัย
-def load_image(path):
-    if os.path.exists(path):
-        return Image.open(path)
-    else:
-        st.warning(f"⚠️ ไม่พบไฟล์ภาพ: {path}")
-        return None
-
-HairG = load_image("hairgrowP.jpg")
-Skindarken = load_image("skin darkenP.jpg")
-
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
     processed = []
@@ -73,12 +62,7 @@ with col1:
     cycle_ri = st.radio("Cycle (R/I)", ["R", "I"])
     cycle_length = st.number_input("Cycle length (days)", min_value=15, max_value=60, value=28)
     hair_growth = st.radio("Hair growth", ["Y", "N"])
-    if HairG:
-        st.sidebar.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
-     skin_dark = st.radio("Skin darkening", ["Y", "N"])
-    if Skindarken:
-        st.sidebar.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
-   
+    skin_dark = st.radio("Skin darkening", ["Y", "N"])
 
 with col2:
     pimples = st.radio("Pimples", ["Y", "N"])
@@ -92,40 +76,8 @@ if st.button("🔍 ประเมินความเสี่ยง"):
                               pimples, fast_food, foll_l, foll_r, weight_gain)
     st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
 
-
-# โหลดโมเดล
-model_path = "PcosApp.joblib"
-if not os.path.exists(model_path):
-    st.error(f"❌ ไม่พบไฟล์โมเดล: {model_path}")
-    st.stop()
-model = joblib.load(model_path)
-
-# ทำการทำนาย
-df = user_input_features()
-st.subheader("🧾 ข้อมูลที่คุณกรอก")
-st.write(df)
-
-if st.button("🔎 ทำการประเมินความเสี่ยง"):
-    prediction = model.predict(df)
-    prediction_proba = model.predict_proba(df)
-
-    st.subheader("📊 ผลการประเมิน")
-    if prediction[0] == 1:
-        st.error("⚠️ ท่านมีความเสี่ยงสูง ควรพบแพทย์เพื่อตรวจเพิ่มเติม")
-    else:
-        st.success("✅ ความเสี่ยงต่ำ")
-
-    st.subheader("เปอร์เซ็นต์ความเสี่ยง")
-    st.write({
-        "โอกาสเสี่ยงต่ำ": f"{prediction_proba[0][0]*100:.2f}%",
-        "โอกาสเสี่ยงสูง": f"{prediction_proba[0][1]*100:.2f}%"
-    })
-
 # Section แบบสอบถามท้ายหน้า
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
-
-
-
-
+    
