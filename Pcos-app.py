@@ -1,6 +1,8 @@
-import streamlit as st
+import streamlit as st 
 import joblib
 import numpy as np
+import os
+from PIL import Image
 
 # โหลดโมเดลที่บันทึกไว้
 model = joblib.load("PcosApp.joblib")
@@ -15,14 +17,12 @@ def load_image(path):
 HairG = load_image("hairgrowP.jpg")
 Skindarken = load_image("skin darkenP.jpg")
 
-
 # ฟีเจอร์ที่ใช้
 features = [
     'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
     'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
     'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
 ]
-
 
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
@@ -75,10 +75,10 @@ with col1:
     cycle_length = st.number_input("Cycle length (days)", min_value=15, max_value=60, value=28)
     hair_growth = st.radio("Hair growth", ["Y", "N"]) 
     if HairG:
-        st.radio.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
+        st.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
     skin_dark = st.radio("Skin darkening", ["Y", "N"])
-     if Skindarken:
-        st.radio.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
+    if Skindarken:
+        st.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
 
 with col2:
     pimples = st.radio("Pimples", ["Y", "N"])
@@ -96,8 +96,3 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
-    
-
-
-
-
