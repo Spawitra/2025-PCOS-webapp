@@ -73,7 +73,12 @@ with col1:
     cycle_ri = st.radio("Cycle (R/I)", ["R", "I"])
     cycle_length = st.number_input("Cycle length (days)", min_value=15, max_value=60, value=28)
     hair_growth = st.radio("Hair growth", ["Y", "N"])
-    skin_dark = st.radio("Skin darkening", ["Y", "N"])
+    if HairG:
+        st.sidebar.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
+     skin_dark = st.radio("Skin darkening", ["Y", "N"])
+    if Skindarken:
+        st.sidebar.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
+   
 
 with col2:
     pimples = st.radio("Pimples", ["Y", "N"])
@@ -120,6 +125,7 @@ if st.button("🔎 ทำการประเมินความเสี่�
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
 
 
