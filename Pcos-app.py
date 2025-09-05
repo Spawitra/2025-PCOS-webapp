@@ -105,19 +105,19 @@ st.sidebar.markdown("[อ่านเพิ่มเติม: ภาวะ PCOS
 st.title("🧬 PCOS Risk Self-Assessment")
 st.markdown("### ประเมินความเสี่ยงโรคภาวะถุงน้ำในรังไข่หลายใบ ")
 
+
+
 col1, col2, col3= st.columns(3)
-
-with col1:
     with st.container():
-        st.markdown('<div class="risk-card">', unsafe_allow_html=True)
-        age = st.number_input("Age (yrs) อายุ ", min_value=10, max_value=60, value=25)
-        weight = st.number_input("Weight (Kg) น้ำหนัก ", min_value=30, max_value=200, value=60)
-        cycle_ri = st.radio("🔄 Cycle รอบเดือนมาก 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
-        cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างต่อรอบ ", min_value=15, max_value=100, value=28)
-        st.markdown('</div>', unsafe_allow_html=True)            
-
-with col2:  
-    with st.container():
+    with col1:   
+            st.markdown('<div class="risk-card">', unsafe_allow_html=True)
+            age = st.number_input("Age (yrs) อายุ ", min_value=10, max_value=60, value=25)
+            weight = st.number_input("Weight (Kg) น้ำหนัก ", min_value=30, max_value=200, value=60)
+            cycle_ri = st.radio("🔄 Cycle รอบเดือนมาก 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
+            cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างต่อรอบ ", min_value=15, max_value=100, value=28)
+            st.markdown('</div>', unsafe_allow_html=True)            
+    
+    with col2:  
         st.markdown('<div class="risk-card">', unsafe_allow_html=True)
         hair_growth = st.radio("Hair growth มีตามจุดต่างๆ ขนขึ้นมากกว่าเดิมหรือไม่", ["Y", "N"]) 
         if HairG:
@@ -126,9 +126,8 @@ with col2:
         if Skindarken:
             st.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
-
-with col3:
-    with st.container():
+    
+    with col3: 
         st.markdown('<div class="risk-card">', unsafe_allow_html=True)
         pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])
         fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะหรือไม่ ", ["Y", "N"])
@@ -184,6 +183,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
 
 
