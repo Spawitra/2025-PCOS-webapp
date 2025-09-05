@@ -2,7 +2,9 @@ import streamlit as st
 import joblib
 import numpy as np
 import os
+import plotly.graph_objects as go
 from PIL import Image
+
 
 # โหลดโมเดลที่บันทึกไว้
 model = joblib.load("PcosApp.joblib")
@@ -106,16 +108,13 @@ st.markdown("### แบบประเมินความเสี่ยงเ
 col1, col2 , col3= st.columns(3)
 
 with col1:
-    with st.container(
+    with st.container():
         st.markdown('<div class="risk-card">', unsafe_allow_html=True)
         age = st.number_input("Age (yrs) อายุ ", min_value=10, max_value=60, value=25)
         weight = st.number_input("Weight (Kg) น้ำหนัก ", min_value=30, max_value=200, value=60)
         cycle_ri = st.radio("🔄 Cycle รอบเดือนมาก 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
         cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างต่อรอบ ", min_value=15, max_value=100, value=28)
-        st.markdown('</div>', unsafe_allow_html=True)
-    ):
-        
-        
+        st.markdown('</div>', unsafe_allow_html=True)            
 
 with col2:  
     with st.container():
@@ -143,25 +142,33 @@ if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark,
                               pimples, fast_food, foll_l, foll_r, weight_gain)
     st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
+    st.progress(int(prob))
+
+    # -------- Gauge Chart --------
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number+delta",
+        value=prob,
+        title={'text': "Risk Probability (%)", 'font': {'size': 24}},
+        delta={'reference': 50, 'increasing': {'color': "red"}},
+        gauge={
+            'axis': {'range': [0, 100], 'tickwidth': 2, 'tickcolor': "darkblue"},
+            'bar': {'color': "darkblue"},
+            'steps': [
+                {'range': [0, 33], 'color': "#90EE90"},   # เขียว = ต่ำ
+                {'range': [33, 66], 'color': "#FFD700"}, # เหลือง = ปานกลาง
+                {'range': [66, 100], 'color': "#FF6347"} # แดง = สูง
+            ],
+            'threshold': {
+                'line': {'color': "black", 'width': 4},
+                'thickness': 0.75,
+                'value': prob
+            }
+        }
+    ))
+
+    st.plotly_chart(fig, use_container_width=True)
 
 # Section แบบสอบถามท้ายหน้า
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
