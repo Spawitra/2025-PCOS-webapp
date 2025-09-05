@@ -62,6 +62,45 @@ def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pi
         risk = "สูง"
     return risk, prob
 
+st.set_page_config(page_title="PCOS Risk Assessment", page_icon="🧬", layout="wide")
+
+# ========== CSS Custom ==========
+st.markdown("""
+<style>
+    .main {background-color: #f9f9fb;}
+    h1, h2, h3 {color: #4B0082;}
+    .stButton>button {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        border-radius: 12px;
+        padding: 0.6em 1.2em;
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(to right, #2575fc, #6a11cb);
+        transform: scale(1.05);
+    }
+    .risk-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# โหลดโมเดล
+model = joblib.load("PcosApp.joblib")
+
+# Sidebar
+st.sidebar.title("ℹ️ ข้อมูลเพิ่มเติม")
+st.sidebar.warning("⚠️ แบบประเมินนี้เป็นเพียงการประเมินเบื้องต้น ❌ ไม่ใช่การวินิจฉัยทางการแพทย์")
+st.sidebar.markdown("[อ่านเพิ่มเติม: ภาวะ PCOS](https://www.bangkokhospital.com/content/overweight)")
+
+# ========== Main UI ==========
+st.title("🧬 PCOS Risk Self-Assessment")
+st.markdown("### แบบประเมินความเสี่ยงเบื้องต้น (Demo UI Version)")
 # ================= Streamlit UI =================
 st.title("🧬 PCOS Risk Self-Assessment")
 st.error(
@@ -79,25 +118,34 @@ st.error(
 col1, col2 , col3= st.columns(3)
 
 with col1:
+     st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     age = st.number_input("Age (yrs) อายุ ", min_value=10, max_value=60, value=25)
     weight = st.number_input("Weight (Kg) น้ำหนัก ", min_value=30, max_value=200, value=60)
     cycle_ri = st.radio("Cycle รอบเดือนมาก 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
     cycle_length = st.number_input("Cycle length (days) ระยะห่างต่อรอบ ", min_value=15, max_value=100, value=28)
+    st.markdown('</div>', unsafe_allow_html=True)
+
 with col2:  
+    with st.container():
     st.write("โปรดสังเกต ร่างกายของท่าน ")
+    st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     hair_growth = st.radio("Hair growth มีตามจุดต่างๆ ขนขึ้นมากกว่าเดิมหรือไม่", ["Y", "N"]) 
     if HairG:
         st.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
     skin_dark = st.radio("Skin darkening สีผิวตามจุดต่างๆ เข้มขึ้น หรือไม่ ", ["Y", "N"])
     if Skindarken:
         st.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 with col3:
+    with st.container():
+    st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])
     fast_food = st.radio("Fast food รับประทานอาหารที่มีไขมันเยอะหรือไม่ ", ["Y", "N"])
     foll_l = st.radio("รูขุมขนบนหน้า ซ้าย กว้างขึ้นหรือไม่  ", ["Y", "N"])
     foll_r = st.radio("รูขุมขนบนหน้า ขวา ", ["Y", "N"])
     weight_gain = st.radio("Weight gain มีน้ำหนักที่เพิ่มมากขึ้นผิดปกติ หรือไม่  ", ["Y", "N"])
+    st.markdown('</div>', unsafe_allow_html=True)
 
 
 if st.button("🔍 ประเมินความเสี่ยง"):
@@ -109,6 +157,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
 
 
