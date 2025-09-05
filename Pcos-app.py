@@ -105,7 +105,7 @@ st.sidebar.markdown("[อ่านเพิ่มเติม: ภาวะ PCOS
 st.title("🧬 PCOS Risk Self-Assessment")
 st.markdown("### แบบประเมินความเสี่ยงเบื้องต้น (Demo UI Version)")
 
-col1, col2 , col3= st.columns(3)
+col1, col2, col3= st.columns(3)
 
 with col1:
     with st.container():
@@ -143,20 +143,29 @@ if st.button("🔍 ประเมินความเสี่ยง"):
                               pimples, fast_food, foll_l, foll_r, weight_gain)
     st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
     st.progress(int(prob))
+    # แถบ Progress bar (gradient style)
+    progress_html = f"""
+    <div style="background-color:#e0e0e0;border-radius:20px;height:25px;">
+        <div style="width:{prob}%;background:linear-gradient(90deg,#6a11cb,#2575fc);
+        height:25px;border-radius:20px;text-align:center;color:white;font-weight:bold;">
+        {prob:.1f}%
+        </div>
+    </div>
+    """
+    st.markdown(progress_html, unsafe_allow_html=True)
 
-    # -------- Gauge Chart --------
+    # Gauge Chart
     fig = go.Figure(go.Indicator(
-        mode="gauge+number+delta",
+        mode="gauge+number",
         value=prob,
-        title={'text': "Risk Probability (%)", 'font': {'size': 24}},
-        delta={'reference': 50, 'increasing': {'color': "red"}},
+        title={'text': "Risk Probability (%)", 'font': {'size': 22}},
         gauge={
-            'axis': {'range': [0, 100], 'tickwidth': 2, 'tickcolor': "darkblue"},
+            'axis': {'range': [0, 100], 'tickwidth': 2},
             'bar': {'color': "darkblue"},
             'steps': [
-                {'range': [0, 33], 'color': "#90EE90"},   # เขียว = ต่ำ
-                {'range': [33, 66], 'color': "#FFD700"}, # เหลือง = ปานกลาง
-                {'range': [66, 100], 'color': "#FF6347"} # แดง = สูง
+                {'range': [0, 33], 'color': "#90EE90"},
+                {'range': [33, 66], 'color': "#FFD700"},
+                {'range': [66, 100], 'color': "#FF6347"}
             ],
             'threshold': {
                 'line': {'color': "black", 'width': 4},
@@ -165,12 +174,16 @@ if st.button("🔍 ประเมินความเสี่ยง"):
             }
         }
     ))
-
     st.plotly_chart(fig, use_container_width=True)
+
+    # คำอธิบายระดับ
+    st.info("🟢 ต่ำ < 33%   |   🟡 ปานกลาง 33-66%   |   🔴 สูง > 66%")
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # Section แบบสอบถามท้ายหน้า
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
 
