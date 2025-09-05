@@ -23,7 +23,7 @@ Skindarken = load_image("skin darkenP.jpg")
 features = [
     'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
     'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
-    'Fast food (Y/N)', 'Weight gain(Y/N)'
+    'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
 ]
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
@@ -52,7 +52,7 @@ def preprocess_input(values):
 def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
                  fast_food, weight_gain):
     values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-              fast_food, weight_gain]
+              fast_food, foll_l, foll_r, weight_gain]
     X = preprocess_input(values)
     prob = model.predict_proba(X)[0][1] * 100
     if prob < 33:
@@ -126,12 +126,15 @@ with st.container():
         pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])          
         fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะบ่อยหรือไม่ ", ["Y", "N"])
         weight_gain = st.radio("📈 Weight gain น้ำหนักเพิ่มขึ้นผิดปกติหรือไม่?", ["Y", "N"])
+        # กำหนดค่า foll เป็น 0 โดยอัตโนมัติ
+        foll_l = 0
+        foll_r = 0
         
     st.markdown('</div>', unsafe_allow_html=True)  
 
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark,
-                              pimples, fast_food, weight_gain)
+                              pimples, fast_food, foll_l, foll_r, weight_gain)
     st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
     st.progress(int(prob))
     # แถบ Progress bar (gradient style)
@@ -175,6 +178,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
 
 
