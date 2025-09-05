@@ -51,9 +51,9 @@ def preprocess_input(values):
 
 # ฟังก์ชันทำนาย
 def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-                 fast_food, foll_l, foll_r, weight_gain):
+                 fast_food,weight_gain):
     values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-              fast_food, foll_l, foll_r, weight_gain]
+              fast_food, weight_gain]
     X = preprocess_input(values)
     prob = model.predict_proba(X)[0][1] * 100
     if prob < 33:
@@ -109,26 +109,24 @@ with st.container():
     st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     col1, col2, col3= st.columns(3)
     with col1:
-        age = st.number_input("Age (yrs) อายุ ", min_value=10, max_value=60, value=25)
-        weight = st.number_input("Weight (Kg) น้ำหนัก ", min_value=30, max_value=200, value=60)
-        cycle_ri = st.radio("🔄 Cycle รอบเดือนมาก 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
-        cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างต่อรอบ(วัน) ", min_value=15, max_value=100, value=28)
-        hair_growth = st.radio("Hair growth มีตามจุดต่างๆ ขนขึ้นมากกว่าเดิมหรือไม่", ["Y", "N"]) 
+        age = st.number_input("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
+        weight = st.number_input("Weight (Kg) น้ำหนัก (กิโลกรัม) ", min_value=30, max_value=200, value=60)
+        cycle_ri = st.radio("🔄 Cycle รอบเดือนมาปกติหรือไม่ ปกติคือ 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
+        cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างรอบเดือน (วัน) ", min_value=15, max_value=100, value=28)
+        hair_growth = st.radio("Hair growth มีขนดกมากกว่าปกติหรือไม่?", ["Y", "N"]) 
         if HairG:
             st.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
             
     with col2:       
-        skin_dark = st.radio("🌑 Skin darkening สีผิวตามจุดต่างๆ เข้มขึ้น หรือไม่ ", ["Y", "N"])
+        skin_dark = st.radio("🌑 Skin darkening มีรอยคล้ำข้มขึ้นตามผิวหนังหรือไม่? ", ["Y", "N"])
         if Skindarken:
-            st.image(Skindarken, caption="จุดสังเกตผิวคล้ำ", use_container_width=True)
+            st.image(Skindarken, caption="ตำแหน่งรอยคล้ำที่พบบ่อย", use_container_width=True)
         
         
     with col3:
         pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])          
-        fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะหรือไม่ ", ["Y", "N"])
-        foll_l = st.number_input("รูขุมขนบนหน้า ซ้ายกว้างขึ้นหรือไม่", 0, 10, 5)
-        foll_r = st.number_input("รูขุมขนบนหน้า ขวากว้างขึ้นหรือไม่ ", 0, 10, 5)
-        weight_gain = st.radio("📈 Weight gain มีน้ำหนักที่เพิ่มมากขึ้นผิดปกติ หรือไม่  ", ["Y", "N"])
+        fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะบ่อยหรือไม่ ", ["Y", "N"])
+        weight_gain = st.radio("📈 Weight gain น้ำหนักเพิ่มขึ้นผิดปกติหรือไม่?", ["Y", "N"])
         
     st.markdown('</div>', unsafe_allow_html=True)  
 
@@ -178,4 +176,5 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/u7GK9hvWkpWjJjaD9)")
+
 
