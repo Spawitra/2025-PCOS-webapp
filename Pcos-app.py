@@ -52,9 +52,9 @@ features = [
     'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
 ]
 # ฟังก์ชันแปลงค่าก่อนทำนาย
-def preprocess_input(values):
+def preprocess_input(user_data):
     processed = []
-    for f, v in zip(features, values):
+    for f, v in zip(features, user_data):
         if isinstance(v, str):
             v = v.strip().upper()
             if v in ["Y", "YES", "1"]: 
@@ -77,10 +77,8 @@ def preprocess_input(values):
 # ฟังก์ชันทำนาย
 def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
                  fast_food, foll_l, foll_r, weight_gain):
-    values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-              fast_food, foll_l, foll_r, weight_gain] 
-                     
-    X = preprocess_input(values)
+                         
+    X = preprocess_input(user_data)
     prob = model.predict_proba(X)[0][1] * 100
     if prob < 33:
         risk = "ต่ำ"
@@ -149,21 +147,21 @@ def user_input_features():
         "weight_gain": weight_gain
     }
 user_data = user_input_features()
-v = preprocess_input(user_data):
+
 st.write(user_data)
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(
-        v["age"],
-        v["weight"],
-        v["cycle_ri"],
-        v["cycle_length"],
-        v["hair_growth"],
-        v["skin_dark"],
-        v["pimples"],
-        v["fast_food"],
-        v["foll_l"],
-        v["foll_r"],
-        v["weight_gain"]
+        user_data["age"],
+        user_data["weight"],
+        user_data["cycle_ri"],
+        user_data["cycle_length"],
+        user_data["hair_growth"],
+        user_data["skin_dark"],
+        user_data["pimples"],
+        user_data["fast_food"],
+        user_data["foll_l"],
+        user_data["foll_r"],
+        user_data["weight_gain"]
     )
     st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     st.subheader(f"🧾 ผลการประเมิน")
