@@ -6,6 +6,31 @@ import os
 import plotly.graph_objects as go
 from PIL import Image
 
+# ========== CSS Custom ==========
+st.markdown("""
+<style>
+    .main {background-color: #f9f9fb;}
+    h1, h2, h3 {color: #4B0082;}
+    .stButton>button {
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        border-radius: 12px;
+        padding: 0.6em 1.2em;
+        font-weight: bold;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(to right, #2575fc, #6a11cb);
+        transform: scale(1.05);
+    }
+    .risk-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # โหลดโมเดลที่บันทึกไว้
 model = joblib.load("PcosApp.joblib")
@@ -63,31 +88,7 @@ def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pi
 
 st.set_page_config(page_title="PCOS Risk Assessment", page_icon="🧬", layout="wide")
 
-# ========== CSS Custom ==========
-st.markdown("""
-<style>
-    .main {background-color: #f9f9fb;}
-    h1, h2, h3 {color: #4B0082;}
-    .stButton>button {
-        background: linear-gradient(to right, #6a11cb, #2575fc);
-        color: white;
-        border-radius: 12px;
-        padding: 0.6em 1.2em;
-        font-weight: bold;
-    }
-    .stButton>button:hover {
-        background: linear-gradient(to right, #2575fc, #6a11cb);
-        transform: scale(1.05);
-    }
-    .risk-card {
-        background-color: #ffffff;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-    }
-</style>
-""", unsafe_allow_html=True)
+
 
 # โหลดโมเดล
 model = joblib.load("PcosApp.joblib")
@@ -106,13 +107,13 @@ def user_input_features():
         st.markdown('<div class="risk-card">', unsafe_allow_html=True)
         col1, col2, col3= st.columns(3)
         with col1:
-            age = st.number_input("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
-            weight = st.number_input("Weight (Kg) น้ำหนัก (กิโลกรัม) ", min_value=30, max_value=200, value=60)
-            cycle_ri = st.radio("🔄 Cycle รอบเดือนมาปกติหรือไม่ ปกติคือ 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
-            cycle_length = st.number_input("🗓️ Cycle length (days) ระยะห่างรอบเดือน (วัน) ", min_value=15, max_value=100, value=28)
-            hair_growth = st.radio("Hair growth มีขนดกมากกว่าปกติหรือไม่?", ["Y", "N"]) 
+            age = st.number_input.write("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
+            weight = st.number_input.write("Weight (Kg) น้ำหนัก (กิโลกรัม) ", min_value=30, max_value=200, value=60)
+            cycle_ri = st.radio.write("🔄 Cycle รอบเดือนมาปกติหรือไม่ ปกติคือ 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
+            cycle_length = st.number_input.write("🗓️ Cycle length (days) ระยะห่างรอบเดือน (วัน) ", min_value=15, max_value=100, value=28)
+            hair_growth = st.radio.write("Hair growth มีขนดกมากกว่าปกติหรือไม่?", ["Y", "N"]) 
             if HairG:
-                st.image(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
+                st.image.write(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
                 
         with col2:       
             skin_dark = st.radio("🌑 Skin darkening มีรอยคล้ำข้มขึ้นตามผิวหนังหรือไม่? ", ["Y", "N"])
@@ -201,26 +202,3 @@ def user_input_features():
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
