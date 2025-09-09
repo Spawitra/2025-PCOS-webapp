@@ -20,11 +20,7 @@ HairG = load_image("hairgrowP.jpg")
 Skindarken = load_image("skin darkenP.jpg")
 
 # ฟีเจอร์ที่ใช้
-features = [
-    'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
-    'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
-    'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
-]
+
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
     processed = []
@@ -107,6 +103,7 @@ st.markdown("### ประเมินความเสี่ยงโรคภ
 
 with st.container():
     st.markdown('<div class="risk-card">', unsafe_allow_html=True)
+def user_input_features():
     col1, col2, col3= st.columns(3)
     with col1:
         age = st.number_input("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
@@ -132,8 +129,13 @@ with st.container():
         foll_r = 10
         
     st.markdown('</div>', unsafe_allow_html=True)  
-    
-    st.write(features)
+    pipe  = [
+    'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
+    'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
+    'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
+]
+    features = pd.DataFrame(pipe, index=[0])
+    return features
     st.write(preprocess_input(features))
     
 if st.button("🔍 ประเมินความเสี่ยง"):
@@ -182,6 +184,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
