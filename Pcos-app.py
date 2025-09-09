@@ -149,20 +149,21 @@ def user_input_features():
         "weight_gain": weight_gain
     }
 user_data = user_input_features()
+v = preprocess_input(user_data):
 st.write(user_data)
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(
-        user_data["age"],
-        user_data["weight"],
-        user_data["cycle_ri"],
-        user_data["cycle_length"],
-        user_data["hair_growth"],
-        user_data["skin_dark"],
-        user_data["pimples"],
-        user_data["fast_food"],
-        user_data["foll_l"],
-        user_data["foll_r"],
-        user_data["weight_gain"]
+        v["age"],
+        v["weight"],
+        v["cycle_ri"],
+        v["cycle_length"],
+        v["hair_growth"],
+        v["skin_dark"],
+        v["pimples"],
+        v["fast_food"],
+        v["foll_l"],
+        v["foll_r"],
+        v["weight_gain"]
     )
     st.markdown('<div class="risk-card">', unsafe_allow_html=True)
     st.subheader(f"🧾 ผลการประเมิน")
@@ -207,6 +208,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
