@@ -137,7 +137,7 @@ def user_input_features():
     features = pd.DataFrame(pipe, index=[0])
     return features
     st.write(preprocess_input(features))
-    
+    df = user_input_features()
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark,
                               pimples, fast_food, foll_l, foll_r, weight_gain)
@@ -184,6 +184,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
