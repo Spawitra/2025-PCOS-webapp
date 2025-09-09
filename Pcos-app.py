@@ -131,19 +131,19 @@ def user_input_features():
         
     st.markdown('</div>', unsafe_allow_html=True)  
     
-     return {
-        "age": age,
-        "weight": weight,
-        "cycle_ri": cycle_ri,
-        "cycle_length": cycle_length,
-        "hair_growth": hair_growth,
-        "skin_dark": skin_dark,
-        "pimples": pimples,
-        "fast_food": fast_food,
-        "foll_l": foll_l,
-        "foll_r": foll_r,
-        "weight_gain": weight_gain
-    }
+ return {
+     "age": age,
+     "weight": weight,
+     "cycle_ri": cycle_ri,
+     "cycle_length": cycle_length,
+     "hair_growth": hair_growth,
+     "skin_dark": skin_dark,
+     "pimples": pimples,
+     "fast_food": fast_food,
+     "foll_l": foll_l,
+     "foll_r": foll_r,
+     "weight_gain": weight_gain
+ }
     
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(
@@ -202,6 +202,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
