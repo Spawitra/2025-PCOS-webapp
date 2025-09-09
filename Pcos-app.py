@@ -179,32 +179,33 @@ if st.button("🔍 ประเมินความเสี่ยง"):
     """
     st.markdown(progress_html, unsafe_allow_html=True)
 
-# Gauge Chart
-fig = go.Figure(go.Indicator(
-    mode="gauge+number",
-    value=prob,
-    title={'text': "Risk Probability (%)", 'font': {'size': 22}},
-    gauge={
-        'axis': {'range': [0, 100], 'tickwidth': 2},
-        'bar': {'color': "darkblue"},
-        'steps': [
-            {'range': [0, 33], 'color': "#90EE90"},
-            {'range': [33, 66], 'color': "#FFD700"},
-            {'range': [66, 100], 'color': "#FF6347"}
-        ],
-        'threshold': {
-            'line': {'color': "black", 'width': 4},
-            'thickness': 0.75,
-            'value': prob
+    # Gauge Chart
+    fig = go.Figure(go.Indicator(
+        mode="gauge+number",
+        value=prob,
+        title={'text': "Risk Probability (%)", 'font': {'size': 22}},
+        gauge={
+            'axis': {'range': [0, 100], 'tickwidth': 2},
+            'bar': {'color': "darkblue"},
+            'steps': [
+                {'range': [0, 33], 'color': "#90EE90"},
+                {'range': [33, 66], 'color': "#FFD700"},
+                {'range': [66, 100], 'color': "#FF6347"}
+            ],
+            'threshold': {
+                'line': {'color': "black", 'width': 4},
+                'thickness': 0.75,
+                'value': prob
+            }
         }
-    }
-))
-st.plotly_chart(fig, use_container_width=True)
-
-st.info("🟢 ต่ำ < 33%   |   🟡 ปานกลาง 33-66%   |   🔴 สูง > 66%")
+    ))
+    st.plotly_chart(fig, use_container_width=True)
+    
+    st.info("🟢 ต่ำ < 33%   |   🟡 ปานกลาง 33-66%   |   🔴 สูง > 66%")
 
 # Section แบบสอบถามท้ายหน้า
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
