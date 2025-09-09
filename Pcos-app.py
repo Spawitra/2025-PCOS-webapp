@@ -1,4 +1,5 @@
 import streamlit as st 
+import pandas as pd
 import joblib
 import numpy as np
 import os
@@ -20,17 +21,7 @@ HairG = load_image("hairgrowP.jpg")
 Skindarken = load_image("skin darkenP.jpg")
 
 # ฟีเจอร์ที่ใช้
-  pipe =  { 'Age (yrs)': age,
-             'Weight (Kg)': weight, 
-             'Cycle(R/I)': cycle_ri,
-              'Cycle length(days)': cycle_length,
-              'hair growth(Y/N)': hair_growth, 
-               'Skin darkening (Y/N)': skin_dark,
-               'Pimples(Y/N)': pimples,
-              'Fast food (Y/N)': fast_food,
-               'Follicle No. (L)': foll_l, 
-                'Follicle No. (R)': foll_r, 
-                'Weight gain(Y/N)': weight_gain}
+  
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
     processed = []
@@ -139,11 +130,17 @@ def user_input_features():
         foll_r = 10
         
     st.markdown('</div>', unsafe_allow_html=True)  
-    pipe  = [
-    'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
-    'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
-    'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
-]
+    pipe =  { 'Age (yrs)': age,
+             'Weight (Kg)': weight, 
+             'Cycle(R/I)': cycle_ri,
+              'Cycle length(days)': cycle_length,
+              'hair growth(Y/N)': hair_growth, 
+               'Skin darkening (Y/N)': skin_dark,
+               'Pimples(Y/N)': pimples,
+              'Fast food (Y/N)': fast_food,
+               'Follicle No. (L)': foll_l, 
+                'Follicle No. (R)': foll_r, 
+                'Weight gain(Y/N)': weight_gain}
     features = pd.DataFrame(pipe, index=[0])
     return features
     st.write(preprocess_input(features))
@@ -194,6 +191,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
