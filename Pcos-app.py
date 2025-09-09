@@ -46,7 +46,11 @@ HairG = load_image("hairgrowP.jpg")
 Skindarken = load_image("skin darkenP.jpg")
 
 # ฟีเจอร์ที่ใช้
-  
+features = [
+    'Age (yrs)', 'Weight (Kg)', 'Cycle(R/I)', 'Cycle length(days)',
+    'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
+    'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
+]
 # ฟังก์ชันแปลงค่าก่อนทำนาย
 def preprocess_input(values):
     processed = []
@@ -102,35 +106,35 @@ st.sidebar.markdown("[อ่านเพิ่มเติม: ภาวะ PCOS
 # ========== Main UI ==========
 st.title("🧬 PCOS Risk Self-Assessment")
 st.markdown("### ประเมินความเสี่ยงโรคภาวะถุงน้ำในรังไข่หลายใบ ")
-def user_input_features():
-    with st.container():
-        st.markdown('<div class="risk-card">', unsafe_allow_html=True)
-        col1, col2, col3= st.columns(3)
-        with col1:
-            age = st.number_input.write("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
-            weight = st.number_input.write("Weight (Kg) น้ำหนัก (กิโลกรัม) ", min_value=30, max_value=200, value=60)
-            cycle_ri = st.radio.write("🔄 Cycle รอบเดือนมาปกติหรือไม่ ปกติคือ 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
-            cycle_length = st.number_input.write("🗓️ Cycle length (days) ระยะห่างรอบเดือน (วัน) ", min_value=15, max_value=100, value=28)
-            hair_growth = st.radio.write("Hair growth มีขนดกมากกว่าปกติหรือไม่?", ["Y", "N"]) 
-            if HairG:
-                st.image.write(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
-                
-        with col2:       
-            skin_dark = st.radio("🌑 Skin darkening มีรอยคล้ำข้มขึ้นตามผิวหนังหรือไม่? ", ["Y", "N"])
-            if Skindarken:
-                st.image(Skindarken, caption="ตำแหน่งรอยคล้ำที่พบบ่อย", use_container_width=True)
+
+with st.container():
+    st.markdown('<div class="risk-card">', unsafe_allow_html=True)
+    col1, col2, col3= st.columns(3)
+    with col1:
+        age = st.number_input.write("Age (yrs) อายุ (ปี)", min_value=10, max_value=60, value=25)
+        weight = st.number_input.write("Weight (Kg) น้ำหนัก (กิโลกรัม) ", min_value=30, max_value=200, value=60)
+        cycle_ri = st.radio.write("🔄 Cycle รอบเดือนมาปกติหรือไม่ ปกติคือ 3-7 วัน  (R ปกติ /Iไม่ปกติ )", ["R", "I"])
+        cycle_length = st.number_input.write("🗓️ Cycle length (days) ระยะห่างรอบเดือน (วัน) ", min_value=15, max_value=100, value=28)
+        hair_growth = st.radio.write("Hair growth มีขนดกมากกว่าปกติหรือไม่?", ["Y", "N"]) 
+        if HairG:
+            st.image.write(HairG, caption="Ferriman Hair Growth Chart", use_container_width=True)
             
-            
-        with col3:
-            pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])          
-            fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะบ่อยหรือไม่ ", ["Y", "N"])
-            weight_gain = st.radio("📈 Weight gain น้ำหนักเพิ่มขึ้นผิดปกติหรือไม่?", ["Y", "N"])
-            # กำหนดค่า foll เป็น 0 โดยอัตโนมัติ
-            foll_l = 10
-            foll_r = 10
-            
-        st.markdown('</div>', unsafe_allow_html=True)  
+    with col2:       
+        skin_dark = st.radio("🌑 Skin darkening มีรอยคล้ำข้มขึ้นตามผิวหนังหรือไม่? ", ["Y", "N"])
+        if Skindarken:
+            st.image(Skindarken, caption="ตำแหน่งรอยคล้ำที่พบบ่อย", use_container_width=True)
         
+        
+    with col3:
+        pimples = st.radio("Pimples มีสิวเพิ่มมากขึ้นหรือไม่ ", ["Y", "N"])          
+        fast_food = st.radio("🍔 Fast food รับประทานอาหารที่มีไขมันเยอะบ่อยหรือไม่ ", ["Y", "N"])
+        weight_gain = st.radio("📈 Weight gain น้ำหนักเพิ่มขึ้นผิดปกติหรือไม่?", ["Y", "N"])
+        # กำหนดค่า foll เป็น 0 โดยอัตโนมัติ
+        foll_l = 10
+        foll_r = 10
+        
+    st.markdown('</div>', unsafe_allow_html=True)  
+  def user_input_features():      
         return {
              "age": age,
              "weight": weight,
@@ -158,10 +162,10 @@ def user_input_features():
                 user_data["foll_l"],
                 user_data["foll_r"],
                 user_data["weight_gain"]
-            )
-    st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
+            )st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
     st.progress(int(prob))
-    # แถบ Progress bar (gradient style)
+
+    # แถบ Progress bar
     progress_html = f"""
     <div style="background-color:#e0e0e0;border-radius:20px;height:25px;">
         <div style="width:{prob}%;background:linear-gradient(90deg,#6a11cb,#2575fc);
@@ -194,11 +198,10 @@ def user_input_features():
     ))
     st.plotly_chart(fig, use_container_width=True)
 
-    # คำอธิบายระดับ
     st.info("🟢 ต่ำ < 33%   |   🟡 ปานกลาง 33-66%   |   🔴 สูง > 66%")
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # Section แบบสอบถามท้ายหน้า
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
