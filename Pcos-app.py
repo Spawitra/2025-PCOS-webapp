@@ -169,10 +169,10 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 # แถบ Progress bar
 progress_html = f"""
 <div style="background-color:#e0e0e0;border-radius:20px;height:25px;">
-    <div style="width:{prob}%;background:linear-gradient(90deg,#6a11cb,#2575fc);
-    height:25px;border-radius:20px;text-align:center;color:white;font-weight:bold;">
-    {prob:.1f}%
-    </div>
+<div style="width:{prob}%;background:linear-gradient(90deg,#6a11cb,#2575fc);
+height:25px;border-radius:20px;text-align:center;color:white;font-weight:bold;">
+{prob:.1f}%
+</div>
 </div>
 """
 st.markdown(progress_html, unsafe_allow_html=True)
@@ -205,6 +205,7 @@ st.info("🟢 ต่ำ < 33%   |   🟡 ปานกลาง 33-66%   |   🔴
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
