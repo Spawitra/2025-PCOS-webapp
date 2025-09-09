@@ -52,7 +52,8 @@ def preprocess_input(values):
 def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
                  fast_food, foll_l, foll_r, weight_gain):
     values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-              fast_food, foll_l, foll_r, weight_gain]
+              fast_food, foll_l, foll_r, weight_gain] 
+                     
     X = preprocess_input(values)
     prob = model.predict_proba(X)[0][1] * 100
     if prob < 33:
@@ -131,7 +132,10 @@ with st.container():
         foll_r = 10
         
     st.markdown('</div>', unsafe_allow_html=True)  
-
+    
+    st.write (values)
+    st.write(preprocess_input(values))
+    
 if st.button("🔍 ประเมินความเสี่ยง"):
     risk, prob = predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark,
                               pimples, fast_food, foll_l, foll_r, weight_gain)
@@ -178,6 +182,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
