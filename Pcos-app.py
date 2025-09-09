@@ -130,24 +130,35 @@ def user_input_features():
         foll_r = 10
         
     st.markdown('</div>', unsafe_allow_html=True)  
-    pipe =  { 'Age (yrs)': age,
-             'Weight (Kg)': weight, 
-             'Cycle(R/I)': cycle_ri,
-              'Cycle length(days)': cycle_length,
-              'hair growth(Y/N)': hair_growth, 
-               'Skin darkening (Y/N)': skin_dark,
-               'Pimples(Y/N)': pimples,
-              'Fast food (Y/N)': fast_food,
-               'Follicle No. (L)': foll_l, 
-                'Follicle No. (R)': foll_r, 
-                'Weight gain(Y/N)': weight_gain}
-    features = pd.DataFrame(pipe, index=[0])
-    return features
-    st.write(preprocess_input(features))
-    df = user_input_features()
+    
+     return {
+        "age": age,
+        "weight": weight,
+        "cycle_ri": cycle_ri,
+        "cycle_length": cycle_length,
+        "hair_growth": hair_growth,
+        "skin_dark": skin_dark,
+        "pimples": pimples,
+        "fast_food": fast_food,
+        "foll_l": foll_l,
+        "foll_r": foll_r,
+        "weight_gain": weight_gain
+    }
+    
 if st.button("🔍 ประเมินความเสี่ยง"):
-    risk, prob = predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark,
-                              pimples, fast_food, foll_l, foll_r, weight_gain)
+    risk, prob = predict_risk(
+        user_data["age"],
+        user_data["weight"],
+        user_data["cycle_ri"],
+        user_data["cycle_length"],
+        user_data["hair_growth"],
+        user_data["skin_dark"],
+        user_data["pimples"],
+        user_data["fast_food"],
+        user_data["foll_l"],
+        user_data["foll_r"],
+        user_data["weight_gain"]
+    )
     st.success(f"ระดับความเสี่ยง: {risk} ({prob:.2f}%)")
     st.progress(int(prob))
     # แถบ Progress bar (gradient style)
@@ -191,6 +202,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
