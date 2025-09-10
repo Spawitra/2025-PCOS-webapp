@@ -51,7 +51,45 @@ features = [
     'hair growth(Y/N)', 'Skin darkening (Y/N)', 'Pimples(Y/N)',
     'Fast food (Y/N)', 'Follicle No. (L)', 'Follicle No. (R)', 'Weight gain(Y/N)'
 ]
+# ฟังก์ชันแปลงค่าก่อนทำนาย
+def preprocess_input(values):
+    processed = []
+    for f, v in zip(features, values):
+        if isinstance(v, str):
+            v = v.strip().upper()
+            if v in ["Y", "YES", "1"]: 
+                processed.append(1)
+            elif v in ["N", "NO", "0"]: 
+                processed.append(0)
+            elif v in ["R"]: 
+                processed.append(1)
+            elif v in ["I"]: 
+                processed.append(0)
+            else:
+                try:
+                    processed.append(float(v))
+                except:
+                    processed.append(0)
+        else:
+            processed.append(v)
+    return np.array(processed).reshape(1, -1)
 
+# ฟังก์ชันทำนาย
+def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
+                 fast_food, foll_l, foll_r, weight_gain):
+     values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
+               fast_food, foll_l, foll_r, weight_gain] 
+                     
+                         
+    X = preprocess_input(values)
+    prob = model.predict_proba(X)[0][1] * 100
+    if prob < 33:
+        risk = "ต่ำ"
+    elif prob < 66:
+        risk = "ปานกลาง"
+    else:
+        risk = "สูง"
+    return risk, prob
 
 
 
@@ -110,45 +148,7 @@ def user_input_features():
         "weight_gain": weight_gain
     }
 user_data = user_input_features()
-# ฟังก์ชันแปลงค่าก่อนทำนาย
-def preprocess_input(values):
-    processed = []
-    for f, v in zip(features, values):
-        if isinstance(v, str):
-            v = v.strip().upper()
-            if v in ["Y", "YES", "1"]: 
-                processed.append(1)
-            elif v in ["N", "NO", "0"]: 
-                processed.append(0)
-            elif v in ["R"]: 
-                processed.append(1)
-            elif v in ["I"]: 
-                processed.append(0)
-            else:
-                try:
-                    processed.append(float(v))
-                except:
-                    processed.append(0)
-        else:
-            processed.append(v)
-    return np.array(processed).reshape(1, -1)
 
-# ฟังก์ชันทำนาย
-def predict_risk(age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-                 fast_food, foll_l, foll_r, weight_gain):
-     values = [age, weight, cycle_ri, cycle_length, hair_growth, skin_dark, pimples,
-               fast_food, foll_l, foll_r, weight_gain] 
-                     
-                         
-    X = preprocess_input(values)
-    prob = model.predict_proba(X)[0][1] * 100
-    if prob < 33:
-        risk = "ต่ำ"
-    elif prob < 66:
-        risk = "ปานกลาง"
-    else:
-        risk = "สูง"
-    return risk, prob
 
 st.set_page_config(page_title="PCOS Risk Assessment", page_icon="🧬", layout="wide")
 st.write(user_data)
@@ -209,6 +209,7 @@ if st.button("🔍 ประเมินความเสี่ยง"):
 with st.expander("📝 รบกวนทำแบบสอบถามการใช้งานเว็บไซต์"):
     st.write("เพื่อปรับปรุงคุณภาพและประสิทธิภาพของแบบประเมิน กรุณาช่วยตอบแบบสอบถามค่ะ 🙏")
     st.markdown("[👉 กดที่นี่เพื่อตอบแบบสอบถาม](https://forms.gle/4Np3VBaY4aeN5Ws27)")
+
 
 
 
