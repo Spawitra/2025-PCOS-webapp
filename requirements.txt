@@ -4,5 +4,4 @@ scikit-learn
 numpy
 plotly
 pandas
-base64
 
